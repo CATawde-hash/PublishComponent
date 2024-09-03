@@ -8,8 +8,8 @@ plugins {
 
 }
 
-group = "com.example.publishcomponent"
-version = "0.1.0"
+/*group = "com.example.publishcomponent"
+version = "0.1.0"*/
 
 kotlin {
     androidTarget {
@@ -61,13 +61,14 @@ dependencies {
     implementation(libs.androidx.runtime.android)
     implementation(libs.androidx.ui.graphics.android)
 }
-publishing {
+/*publishing {
     publications {
         create<MavenPublication>("maven") {
             from(components["kotlin"])
             groupId = "com.example.publishcomponent"
             artifactId = "PublishComponent"
             version = "0.1.0"
+
             // Add pom configuration if needed
             //pom {
               //  name.set("PublishComponent")
@@ -77,7 +78,7 @@ publishing {
 
         }
     }
-/*
+*//*
     repositories {
         maven {
             url = uri("https://gitlab.com/api/v4/projects/61331517/packages/maven")
@@ -90,5 +91,5 @@ publishing {
             }
         }
     }
-*/
-}
+*//*
+}*/
