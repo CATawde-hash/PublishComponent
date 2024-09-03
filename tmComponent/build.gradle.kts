@@ -8,9 +8,8 @@ plugins {
 
 }
 
-/*group = "com.example.publishcomponent"
-version = "0.1.0"*/
-
+group = "com.example.publishcomponent"
+version = "1.0.0"
 kotlin {
     androidTarget {
         compilations.all {
