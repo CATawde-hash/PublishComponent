@@ -8,4 +8,5 @@ plugins {
     kotlin("plugin.serialization") version "1.8.21" apply false
     alias(libs.plugins.androidApplication) apply false
     alias(libs.plugins.jetbrainsCompose) apply false
+    id("com.vanniktech.maven.publish") version "0.28.0"
 }

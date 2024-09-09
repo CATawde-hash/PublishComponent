@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
@@ -7,7 +9,6 @@ plugins {
     id("org.jetbrains.dokka") version "1.9.10"
     id("maven-publish")
     id("signing")
-
 }
 
 
@@ -15,35 +16,25 @@ plugins {
 group = "com.example.publishcomponent"
 version = "1.0.0"
 
+/*
 val artifact = "publishComponent"
 val pkgUrl = "https://github.com/CATawde-hash/PublishComponent"
 val gitUrl = "github.com:CATawde-hash/PublishComponent.git"
 val ktorVersion = "1.0.0"
+*/
 
-
-val dokkaOutputDir = "$buildDir/dokka"
-
-tasks.dokkaHtml {
-    outputDirectory.set(file(dokkaOutputDir))
-}
-
-val dokkaJar by tasks.creating(Jar::class) {
-    group = JavaBasePlugin.DOCUMENTATION_GROUP
-//    description = "Assembles Kotlin docs with Dokka"
-    archiveClassifier.set("javadoc")
-    from(tasks.dokkaHtml)
-}
 
 kotlin {
     androidTarget {
-        publishLibraryVariants("release")
+        publishLibraryVariants("release", "debug")
+
         compilations.all {
             kotlinOptions {
                 jvmTarget = "1.8"
             }
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -69,6 +60,8 @@ kotlin {
     }
 }
 
+
+
 android {
     namespace = "com.example.publishcomponent"
     compileSdk = 34
@@ -88,82 +81,205 @@ dependencies {
 
 
 
-
+/*
 publishing {
-    repositories {
-        maven {
-            name = "Oss"
-            setUrl {
-                "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            }
-            credentials {
-                username = System.getenv("SONATYPE_USERNAME")
-                password = System.getenv("SONATYPE_PASSWORD")
-            }
-        }
-        maven {
-            name = "Snapshot"
-            setUrl { "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
-            credentials {
-                username = System.getenv("SONATYPE_USERNAME")
-                password = System.getenv("SONATYPE_PASSWORD")
+    publications {
+        create<MavenPublication>("mavenLibrary") {
+            groupId = "io.github.catawde-hash"
+            artifactId = "publishComponent"
+            version = "1.0.0"
+
+            pom {
+                name.set("PublishComponent")
+                description.set("Publish Component Library")
+                url.set("https://github.com/CATawde-hash/PublishComponent")
+
+                licenses {
+                    license {
+                        name.set("MIT")
+                        url.set("https://opensource.org/licenses/MIT")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("CATawde-hash")
+                        name.set("chandana")
+                        email.set("chandana.tawde@truemeds.in")
+                    }
+                }
+                scm {
+                    url.set("https://github.com/CATawde-hash/PublishComponent")
+                }
+
             }
         }
     }
+    repositories {
+        maven {
+            name = "MyMavenRepo"
+            url = uri("file:///${System.getProperty("user.home")}/.m2/repository") // Example for local repo
+            // Or use credentials for remote repos
+            // credentials {
+            //     username = "your-username"
+            //     password = "your-password"// }
+        }
+    }
+    // Configure publishing to Maven Central
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 
+    // Enable GPG signing for all publications
+    signAllPublications()
+}
+
+*/
+/*
+
+publishing {
     publications {
-        publications.configureEach {
-            if (this is MavenPublication) {
-                artifact(dokkaJar)
-                pom {
-                    name.set(artifact)
-                    description.set("Publish Component Kotlin Multiplatform SDK")
-                    url.set(pkgUrl)
+        create<MavenPublication>("release") {
+            groupId = "io.github.catawde-hash"
+            artifactId = "publishComponent"
+            version = "1.0.0"
 
-                    licenses {
-                        license {
-                            name.set("MIT license")
-                            url.set("https://opensource.org/licenses/MIT")
-                        }
-                    }
+            from(components["release"]) // Typically your release component
+        }
+    }
+    repositories {
+        maven {
+            name = "MavenCentral"
+            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            credentials {
+                username = System.getenv("MDv8WbOJ")
+                password = System.getenv("0YGwJPsf9wyUxNKmhsbLTrrC2oT+jP1RaxZwQB800NbH")
+            }
+        }
+    }
+}
+*//*
 
-                    issueManagement {
-                        system.set("GitHub Issues")
-                        url.set("$pkgUrl/issues")
-                    }
 
-                    developers {
-                        developer {
-                            id.set("CATawde-hash")
-                            name.set("CATawde-hash")
-                            email.set("chandana.tawde@truemeds.in")
-                        }
-                    }
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "io.github.catawde-hash"
+            artifactId = "publishComponent"
+            version = "1.0.0"
 
-                    scm {
-                        connection.set("scm:git:git://$gitUrl")
-                        developerConnection.set("scm:git:ssh://$gitUrl")
-                        url.set(pkgUrl)
+            from(components["release"]) // or "debug"
+        }
+    }
+    repositories {
+        maven {
+            name = "MavenCentral"
+            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            credentials {
+                username = System.getenv("MDv8WbOJ")
+                password = System.getenv("0YGwJPsf9wyUxNKmhsbLTrrC2oT+jP1RaxZwQB800NbH")
+            }
+        }
+    }
+}
+*/
+/*
+mavenPublishing {
+    // Define coordinates for the published artifact
+    coordinates(
+        groupId = "<YOUR_SONATYPE_CENTRAL_NAMESPACE>",
+        artifactId = "math-lib",
+        version = "1.0.0"
+    )
+
+    // Configure POM metadata for the published artifact
+    pom {
+        name.set("Math KMP Library")
+        description.set("Sample Kotlin MultiPlatform Library Test")
+        inceptionYear.set("2024")
+        url.set("https://github.com/<GITHUB_USER_NAME>/MathLibGuide")
+
+        licenses {
+            license {
+                name.set("MIT")
+                url.set("https://opensource.org/licenses/MIT")
+            }
+        }
+
+        // Specify developers information
+        developers {
+            developer {
+                id.set("<GITHUB_USER_NAME>")
+                name.set("<GITHUB_ACTUAL_NAME>")
+                email.set("<GITHUB_EMAIL_ADDRESS>")
+            }
+        }
+
+        // Specify SCM information
+        scm {
+            url.set("https://github.com/<GITHUB_USER_NAME>/MathLibGuide")
+        }
+    }
+
+    // Configure publishing to Maven Central
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+
+    // Enable GPG signing for all publications
+    signAllPublications()
+}*/
+
+val dokkaOutputDir = buildDir.resolve("dokka")
+tasks.dokkaHtml { outputDirectory.set(file(dokkaOutputDir)) }
+val deleteDokkaOutputDir by tasks.register<Delete>("deleteDokkaOutputDirectory") { delete(dokkaOutputDir) }
+val javadocJar = tasks.create<Jar>("javadocJar") {
+    archiveClassifier.set("javadoc")
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    dependsOn(deleteDokkaOutputDir, tasks.dokkaHtml)
+    from(dokkaOutputDir)
+}
+
+
+publishing {
+    publications {
+        publications.withType<MavenPublication> {
+            artifact(javadocJar)
+
+            pom {
+                name.set("PublishComponent") // Change here
+                description.set("Publish Component") // Change here
+                url.set("https://github.com/CATawde-hash/PublishComponent") // Change here
+
+                licenses {
+                    license {
+                        name.set("The Apache License, Version 2.0") // Change here, if needed
+                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt") // Change here, if needed
                     }
+                }
+
+                issueManagement {
+                    system.set("GitHub Issues")
+                    url.set("https://github.com/CATawde-hash/PublishComponent/issues") // Change here
+                }
+
+                developers {
+                    developer {
+                        id.set("CATawde-hash") // Change here
+                        name.set("Chandana") // Change here
+                        email.set("chandana.tawde@truemeds.in") // Change here
+                    }
+                }
+
+                scm {
+                    connection.set("scm:git:git://github.com:CATawde-hash/PublishComponent.git") // Change here
+                    developerConnection.set("scm:git:ssh://github.com:CATawde-hash/PublishComponent.git")// Change here
+                    url.set("https://github.com/CATawde-hash/PublishComponent") // Change here
                 }
             }
         }
-//        create<MavenPublication>("maven") {
-//        withType<MavenPublication> {
-//            groupId = "$group"
-//            artifactId = artifact
-//            version = version
-//            artifact(dokkaJar)
-//        }
     }
 }
 
-if (System.getenv("GPG_PRIVATE_KEY") != null && System.getenv("GPG_PRIVATE_PASSWORD") != null) {
-    signing {
-        useInMemoryPgpKeys(
-            System.getenv("GPG_PRIVATE_KEY"),
-            System.getenv("GPG_PRIVATE_PASSWORD")
-        )
+signing {
+    if (project.hasProperty("signing.gnupg.keyName")) {
+        println("Signing lib...")
+        useGpgCmd()
         sign(publishing.publications)
     }
 }
