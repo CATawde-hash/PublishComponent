@@ -1,4 +1,3 @@
-import com.vanniktech.maven.publish.SonatypeHost
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -6,11 +5,13 @@ plugins {
     alias(libs.plugins.compose.compiler)
     id("org.jetbrains.compose")
     id("kotlin-parcelize")
-    id("org.jetbrains.dokka") version "1.9.10"
     id("maven-publish")
     id("signing")
 }
 
+/*
+id("org.jetbrains.dokka") version "1.9.10"
+*/
 
 
 group = "com.example.publishcomponent"
@@ -79,153 +80,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics.android)
 }
 
-
-
-/*
-publishing {
-    publications {
-        create<MavenPublication>("mavenLibrary") {
-            groupId = "io.github.catawde-hash"
-            artifactId = "publishComponent"
-            version = "1.0.0"
-
-            pom {
-                name.set("PublishComponent")
-                description.set("Publish Component Library")
-                url.set("https://github.com/CATawde-hash/PublishComponent")
-
-                licenses {
-                    license {
-                        name.set("MIT")
-                        url.set("https://opensource.org/licenses/MIT")
-                    }
-                }
-                developers {
-                    developer {
-                        id.set("CATawde-hash")
-                        name.set("chandana")
-                        email.set("chandana.tawde@truemeds.in")
-                    }
-                }
-                scm {
-                    url.set("https://github.com/CATawde-hash/PublishComponent")
-                }
-
-            }
-        }
-    }
-    repositories {
-        maven {
-            name = "MyMavenRepo"
-            url = uri("file:///${System.getProperty("user.home")}/.m2/repository") // Example for local repo
-            // Or use credentials for remote repos
-            // credentials {
-            //     username = "your-username"
-            //     password = "your-password"// }
-        }
-    }
-    // Configure publishing to Maven Central
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
-
-    // Enable GPG signing for all publications
-    signAllPublications()
-}
-
-*/
-/*
-
-publishing {
-    publications {
-        create<MavenPublication>("release") {
-            groupId = "io.github.catawde-hash"
-            artifactId = "publishComponent"
-            version = "1.0.0"
-
-            from(components["release"]) // Typically your release component
-        }
-    }
-    repositories {
-        maven {
-            name = "MavenCentral"
-            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-            credentials {
-                username = System.getenv("MDv8WbOJ")
-                password = System.getenv("0YGwJPsf9wyUxNKmhsbLTrrC2oT+jP1RaxZwQB800NbH")
-            }
-        }
-    }
-}
-*//*
-
-
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = "io.github.catawde-hash"
-            artifactId = "publishComponent"
-            version = "1.0.0"
-
-            from(components["release"]) // or "debug"
-        }
-    }
-    repositories {
-        maven {
-            name = "MavenCentral"
-            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-            credentials {
-                username = System.getenv("MDv8WbOJ")
-                password = System.getenv("0YGwJPsf9wyUxNKmhsbLTrrC2oT+jP1RaxZwQB800NbH")
-            }
-        }
-    }
-}
-*/
-/*
-mavenPublishing {
-    // Define coordinates for the published artifact
-    coordinates(
-        groupId = "<YOUR_SONATYPE_CENTRAL_NAMESPACE>",
-        artifactId = "math-lib",
-        version = "1.0.0"
-    )
-
-    // Configure POM metadata for the published artifact
-    pom {
-        name.set("Math KMP Library")
-        description.set("Sample Kotlin MultiPlatform Library Test")
-        inceptionYear.set("2024")
-        url.set("https://github.com/<GITHUB_USER_NAME>/MathLibGuide")
-
-        licenses {
-            license {
-                name.set("MIT")
-                url.set("https://opensource.org/licenses/MIT")
-            }
-        }
-
-        // Specify developers information
-        developers {
-            developer {
-                id.set("<GITHUB_USER_NAME>")
-                name.set("<GITHUB_ACTUAL_NAME>")
-                email.set("<GITHUB_EMAIL_ADDRESS>")
-            }
-        }
-
-        // Specify SCM information
-        scm {
-            url.set("https://github.com/<GITHUB_USER_NAME>/MathLibGuide")
-        }
-    }
-
-    // Configure publishing to Maven Central
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
-
-    // Enable GPG signing for all publications
-    signAllPublications()
-}*/
-
-val dokkaOutputDir = buildDir.resolve("dokka")
+/*val dokkaOutputDir = buildDir.resolve("dokka")
 tasks.dokkaHtml { outputDirectory.set(file(dokkaOutputDir)) }
 val deleteDokkaOutputDir by tasks.register<Delete>("deleteDokkaOutputDirectory") { delete(dokkaOutputDir) }
 val javadocJar = tasks.create<Jar>("javadocJar") {
@@ -233,13 +88,13 @@ val javadocJar = tasks.create<Jar>("javadocJar") {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     dependsOn(deleteDokkaOutputDir, tasks.dokkaHtml)
     from(dokkaOutputDir)
-}
+}*/
 
 
 publishing {
     publications {
         publications.withType<MavenPublication> {
-            artifact(javadocJar)
+          //  artifact(javadocJar)
 
             pom {
                 name.set("PublishComponent") // Change here
